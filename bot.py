@@ -21,16 +21,24 @@ class Bot:
     This is the ship-controlling bot that will be instantiated for the competition.
     """
 
+
     def __init__(self):
-        self.team = "TeamName"  # This is your team name
+        self.team = "MSKnekkebroed"  # This is your team name
         # This is the course that the ship has to follow
         self.course = [
             Checkpoint(latitude=43.797109, longitude=-11.264905, radius=50),
-            Checkpoint(longitude=-29.908577, latitude=17.999811, radius=50),
-            Checkpoint(latitude=-11.441808, longitude=-29.660252, radius=50),
-            Checkpoint(longitude=-63.240264, latitude=-61.025125, radius=50),
-            Checkpoint(latitude=2.806318, longitude=-168.943864, radius=1990.0),
-            Checkpoint(latitude=-62.052286, longitude=169.214572, radius=50.0),
+            Checkpoint(latitude=18.250444900632157, longitude=-64.22999473226756, radius=10.0),
+            Checkpoint(latitude=9.511211429571273, longitude=-79.91830237031091, radius=10.0), # panama øst
+            Checkpoint(latitude=8.581100, longitude=-79.158351, radius=10.0),
+            Checkpoint(latitude=6.397269, longitude=-79.669215, radius=10.0),
+            # Checkpoint(latitude=1.7446281806625012, longitude=-91.84743266713436,radius=10.0),#  ; galapagos  
+            Checkpoint(latitude=2.806318, longitude=-168.943864, radius=1990.0), # cp stillehavet
+            # Checkpoint(latitude=-62.052286, longitude=169.214572, radius=50.0),
+            Checkpoint(latitude=-1.768, longitude=-157.985, radius=10.0),
+            Checkpoint(latitude=-33.383024, longitude=162.631506, radius=10.0),
+            Checkpoint(latitude=-47.992, longitude=146.547, radius=50.0),
+
+
             Checkpoint(latitude=-15.668984, longitude=77.674694, radius=1190.0),
             Checkpoint(latitude=-39.438937, longitude=19.836265, radius=50.0),
             Checkpoint(latitude=14.881699, longitude=-21.024326, radius=50.0),
@@ -103,10 +111,16 @@ class Bot:
         instructions = Instructions()
 
         # TODO: Remove this, it's only for testing =================
-        current_position_forecast = forecast(
-            latitudes=latitude, longitudes=longitude, times=0
-        )
+        # current_position_forecast = forecast(
+        #    latitudes=latitude, longitudes=longitude, times=0
+        #)
         current_position_terrain = world_map(latitudes=latitude, longitudes=longitude)
+        # =====
+        # Check if we are stranded..1 = sea, 0 is land
+        if current_position_terrain == 0:
+            # We must turn the vessel..
+            print("oh no, we are stranded")
+            instructions.left(45)
         # ===========================================================
 
         # Go through all checkpoints and find the next one to reach
